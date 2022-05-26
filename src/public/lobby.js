@@ -1,4 +1,6 @@
-const ws = new WebSocket('ws://' + location.host)
+const ws_protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+
+const ws = new WebSocket(ws_protocol + location.host)
 let nick = 'Anonymous Player'
 let id = ''
 let match_id
