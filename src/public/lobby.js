@@ -85,9 +85,47 @@ const attack = (x, y) => {
   }
 }
 
+const emptySpace = ({ x, y }) => {
+  if (x > 9 || y > 9 || x < 0 || y < 0) {
+    return true
+  }
+  return my_board[x][y] === '' || my_board[x][y] === undefined
+}
+
+const verifyEmptySpaceBetween = (ships) => {
+  let emptySpaceBetween = true
+  ships.forEach(({ x, y }) => {
+    if (
+      !emptySpace({ x, y }) ||
+      !emptySpace({ x: x + 1, y }) ||
+      !emptySpace({ x: x - 1, y }) ||
+      !emptySpace({ x, y: y + 1 }) ||
+      !emptySpace({ x, y: y - 1 }) ||
+      !emptySpace({ x: x + 1, y: y + 1 }) ||
+      !emptySpace({ x: x - 1, y: y - 1 }) ||
+      !emptySpace({ x: x + 1, y: y - 1 }) ||
+      !emptySpace({ x: x - 1, y: y + 1 })
+    ) {
+      emptySpaceBetween = false
+      return
+    }
+  })
+  return emptySpaceBetween
+}
+
 const add = (x, y) => {
   if (PA < PA_TOTAL) {
-    if (y > 7 || y < 2) {
+    if (
+      y > 7 ||
+      y < 2 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 2 },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
       alert('Local invalido')
       return
     }
@@ -108,7 +146,16 @@ const add = (x, y) => {
       document.getElementById('peca').innerHTML = 'Encouraçado'
     }
   } else if (EC < EC_TOTAL) {
-    if (y > 7 || y < 1) {
+    if (
+      y > 7 ||
+      y < 1 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
       alert('Local invalido')
       return
     }
@@ -124,28 +171,29 @@ const add = (x, y) => {
     document.getElementById(`${x}${y + 2}`).style.background = 'red'
 
     if (EC == EC_TOTAL) {
-      document.getElementById('peca').innerHTML = 'Hidro-Avião'
-    }
-  } else if (HA < HA_TOTAL) {
-    if (x > 8 || y > 8 || y < 1) {
-      alert('Local invalido')
-      return
-    }
-    HA++
-
-    my_board[x][y] = 'HA'
-    my_board[x + 1][y - 1] = 'HA'
-    my_board[x + 1][y + 1] = 'HA'
-
-    document.getElementById(`${x}${y}`).style.background = 'pink'
-    document.getElementById(`${x + 1}${y - 1}`).style.background = 'pink'
-    document.getElementById(`${x + 1}${y + 1}`).style.background = 'pink'
-
-    if (HA == HA_TOTAL) {
+      // document.getElementById('peca').innerHTML = 'Hidro-Avião'
       document.getElementById('peca').innerHTML = 'Submarino'
     }
+    // } else if (HA < HA_TOTAL) {
+    //   if (x > 8 || y > 8 || y < 1 || !verifyEmptySpaceBetween([{ x, y }, { x: x + 1, y: y - 1 }, { x: x + 1, y: y + 1 }])) {
+    //     alert('Local invalido')
+    //     return
+    //   }
+    //   HA++
+
+    //   my_board[x][y] = 'HA'
+    //   my_board[x + 1][y - 1] = 'HA'
+    //   my_board[x + 1][y + 1] = 'HA'
+
+    //   document.getElementById(`${x}${y}`).style.background = 'pink'
+    //   document.getElementById(`${x + 1}${y - 1}`).style.background = 'pink'
+    //   document.getElementById(`${x + 1}${y + 1}`).style.background = 'pink'
+
+    //   if (HA == HA_TOTAL) {
+    //     document.getElementById('peca').innerHTML = 'Submarino'
+    //   }
   } else if (SB < SB_TOTAL) {
-    if (false) {
+    if (!verifyEmptySpaceBetween([{ x, y }])) {
       alert('Local invalido')
       return
     }
@@ -159,7 +207,13 @@ const add = (x, y) => {
       document.getElementById('peca').innerHTML = 'Cruzador'
     }
   } else if (CR < CR_TOTAL) {
-    if (y > 8) {
+    if (
+      y > 8 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y + 1 },
+      ])
+    ) {
       alert('Local invalido')
       return
     }
