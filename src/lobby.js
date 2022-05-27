@@ -278,10 +278,33 @@ const onMessage = (ws, data) => {
   }
 }
 
+const onClose = (ws) => {
+  matches.forEach((match) => {
+    if (match.player1.ws == ws) {
+      match.player2.ws.send(
+        JSON.stringify({
+          type: 'match',
+          data: { status: 'opponent disconnected' },
+        })
+      )
+      matches.splice(matches.indexOf(match), 1)
+    } else if (match.player2.ws == ws) {
+      match.player1.ws.send(
+        JSON.stringify({
+          type: 'match',
+          data: { status: 'opponent disconnected' },
+        })
+      )
+      matches.splice(matches.indexOf(match), 1)
+    }
+  })
+}
+
 const onConnection = (ws, req) => {
   clients.push(ws)
   ws.on('error', (error) => onError(ws, error))
   ws.on('message', (data) => onMessage(ws, data))
+  ws.on('close', () => onClose(ws))
   ws.send(
     JSON.stringify({
       type: 'connection',

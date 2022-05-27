@@ -312,6 +312,13 @@ ws.onmessage = (event) => {
         }
       }
     }
+    if (data.data.status === 'opponent disconnected') {
+      document.getElementById('messageArea').innerHTML =
+        'O seu oponente saiu! A partida acabou :('
+      document.getElementById('messageArea2').innerHTML = ''
+      document.getElementById('opponent-board').style.display = 'none'
+      document.getElementById('my-board').style.display = 'none'
+    }
   }
 }
 
