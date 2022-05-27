@@ -3,7 +3,6 @@ import { v4 } from 'uuid'
 
 const matches = []
 const playersWaitingForMatch = []
-const clients = []
 
 const onError = (ws, error) => {
   console.error(`Error: ${error.message}`)
@@ -306,7 +305,6 @@ const onClose = (ws) => {
 }
 
 const onConnection = (ws, req) => {
-  clients.push(ws)
   ws.on('error', (error) => onError(ws, error))
   ws.on('message', (data) => onMessage(ws, data))
   ws.on('close', () => onClose(ws))
