@@ -279,6 +279,11 @@ const onMessage = (ws, data) => {
 }
 
 const onClose = (ws) => {
+  playersWaitingForMatch.forEach((player) => {
+    if (player.ws == ws) {
+      playersWaitingForMatch.splice(playersWaitingForMatch.indexOf(player), 1)
+    }
+  })
   matches.forEach((match) => {
     if (match.player1.ws == ws) {
       match.player2.ws.send(
