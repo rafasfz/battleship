@@ -9,6 +9,33 @@ const onError = (ws, error) => {
   console.error(`Error: ${error.message}`)
 }
 
+const emptySpace = ({ x, y, board, verfiedsCoordenates }) => {
+  if (verfiedsCoordenates.includes(`${x}${y}`)) {
+    return true
+  }
+  verfiedsCoordenates.push(`${x}${y}`)
+  if (x > 9 || y > 9 || x < 0 || y < 0) {
+    return true
+  }
+  if (board[x][y] === 'S') {
+    return (
+      emptySpace({ x, y: y + 1, board, verfiedsCoordenates }) &&
+      emptySpace({ x, y: y - 1, board, verfiedsCoordenates })
+    )
+  }
+  return (
+    board[x][y] === '' ||
+    board[x][y] === undefined ||
+    board[x][y] === 'S' ||
+    board[x][y] === 'W'
+  )
+}
+
+const verifyAllShipDestruction = ({ x, y, board }) => {
+  const verfiedsCoordenates = []
+  return emptySpace({ x, y, board, verfiedsCoordenates })
+}
+
 const checkWin = (board) => {
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
@@ -79,6 +106,40 @@ const onMessage = (ws, data) => {
         )
 
         matches.splice(matches.indexOf(match), 1)
+        return
+      }
+
+      if (
+        verifyAllShipDestruction({
+          x: dataJSON.data.x,
+          y: dataJSON.data.y,
+          board: opponent.board,
+        })
+      ) {
+        ws.send(
+          JSON.stringify({
+            type: 'match',
+            data: {
+              status: 'my turn',
+              x: dataJSON.data.x,
+              y: dataJSON.data.y,
+              target: 'S',
+              message: 'ship down',
+            },
+          })
+        )
+        opponent.ws.send(
+          JSON.stringify({
+            type: 'match',
+            data: {
+              status: 'opponent turn',
+              x: dataJSON.data.x,
+              y: dataJSON.data.y,
+              target: 'S',
+            },
+          })
+        )
+
         return
       }
 

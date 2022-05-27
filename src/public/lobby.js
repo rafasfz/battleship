@@ -278,6 +278,10 @@ ws.onmessage = (event) => {
       document.getElementById('opponent-board').style.display = 'block'
       game_state = 'my turn'
 
+      if (data.data.message === 'ship down') {
+        document.getElementById('messageArea2').innerHTML =
+          'Você derrubou um navio!'
+      }
       if (data.data.target) {
         if (data.data.target === 'W') {
           document.getElementById(
