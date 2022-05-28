@@ -42,6 +42,8 @@ let HA = 0
 let SB = 0
 let CR = 0
 let horizontal = true
+let lastX
+let lastY
 
 const joinLobby = () => {
   nick = document.getElementById('nick').value
@@ -118,83 +120,119 @@ const verifyEmptySpaceBetween = (ships) => {
 
 const add = (x, y) => {
   if (PA < PA_TOTAL) {
-    if (
-      y > 7 ||
-      y < 2 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 2 },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      alert('Local invalido')
-      return
-    }
-    PA++
-    my_board[x][y - 2] = 'PA'
-    my_board[x][y - 1] = 'PA'
-    my_board[x][y] = 'PA'
-    my_board[x][y + 1] = 'PA'
-    my_board[x][y + 2] = 'PA'
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 2 },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      PA++
+      my_board[x][y - 2] = 'PA'
+      my_board[x][y - 1] = 'PA'
+      my_board[x][y] = 'PA'
+      my_board[x][y + 1] = 'PA'
+      my_board[x][y + 2] = 'PA'
 
-    document.getElementById(`${x}${y - 2}`).style.background = 'yellow'
-    document.getElementById(`${x}${y - 1}`).style.background = 'yellow'
-    document.getElementById(`${x}${y}`).style.background = 'yellow'
-    document.getElementById(`${x}${y + 1}`).style.background = 'yellow'
-    document.getElementById(`${x}${y + 2}`).style.background = 'yellow'
+      document.getElementById(`${x}${y - 2}`).style.background = 'yellow'
+      document.getElementById(`${x}${y - 1}`).style.background = 'yellow'
+      document.getElementById(`${x}${y}`).style.background = 'yellow'
+      document.getElementById(`${x}${y + 1}`).style.background = 'yellow'
+      document.getElementById(`${x}${y + 2}`).style.background = 'yellow'
+    } else {
+      if (
+        x > 7 ||
+        x < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 2, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      PA++
+      my_board[x - 2][y] = 'PA'
+      my_board[x - 1][y] = 'PA'
+      my_board[x][y] = 'PA'
+      my_board[x + 1][y] = 'PA'
+      my_board[x + 2][y] = 'PA'
+
+      document.getElementById(`${x - 2}${y}`).style.background = 'yellow'
+      document.getElementById(`${x - 1}${y}`).style.background = 'yellow'
+      document.getElementById(`${x}${y}`).style.background = 'yellow'
+      document.getElementById(`${x + 1}${y}`).style.background = 'yellow'
+      document.getElementById(`${x + 2}${y}`).style.background = 'yellow'
+    }
 
     if (PA == PA_TOTAL) {
       document.getElementById('peca').innerHTML = 'Encouraçado'
     }
   } else if (EC < EC_TOTAL) {
-    if (
-      y > 7 ||
-      y < 1 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      alert('Local invalido')
-      return
-    }
-    EC++
-    my_board[x][y - 1] = 'EC'
-    my_board[x][y] = 'EC'
-    my_board[x][y + 1] = 'EC'
-    my_board[x][y + 2] = 'EC'
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      EC++
+      my_board[x][y - 1] = 'EC'
+      my_board[x][y] = 'EC'
+      my_board[x][y + 1] = 'EC'
+      my_board[x][y + 2] = 'EC'
 
-    document.getElementById(`${x}${y - 1}`).style.background = 'red'
-    document.getElementById(`${x}${y}`).style.background = 'red'
-    document.getElementById(`${x}${y + 1}`).style.background = 'red'
-    document.getElementById(`${x}${y + 2}`).style.background = 'red'
+      document.getElementById(`${x}${y - 1}`).style.background = 'red'
+      document.getElementById(`${x}${y}`).style.background = 'red'
+      document.getElementById(`${x}${y + 1}`).style.background = 'red'
+      document.getElementById(`${x}${y + 2}`).style.background = 'red'
+    } else {
+      if (
+        x > 7 ||
+        x < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      EC++
+      my_board[x - 1][y] = 'EC'
+      my_board[x][y] = 'EC'
+      my_board[x + 1][y] = 'EC'
+      my_board[x + 2][y] = 'EC'
+
+      document.getElementById(`${x - 1}${y}`).style.background = 'red'
+      document.getElementById(`${x}${y}`).style.background = 'red'
+      document.getElementById(`${x + 1}${y}`).style.background = 'red'
+      document.getElementById(`${x + 2}${y}`).style.background = 'red'
+    }
 
     if (EC == EC_TOTAL) {
-      // document.getElementById('peca').innerHTML = 'Hidro-Avião'
       document.getElementById('peca').innerHTML = 'Submarino'
     }
-    // } else if (HA < HA_TOTAL) {
-    //   if (x > 8 || y > 8 || y < 1 || !verifyEmptySpaceBetween([{ x, y }, { x: x + 1, y: y - 1 }, { x: x + 1, y: y + 1 }])) {
-    //     alert('Local invalido')
-    //     return
-    //   }
-    //   HA++
-
-    //   my_board[x][y] = 'HA'
-    //   my_board[x + 1][y - 1] = 'HA'
-    //   my_board[x + 1][y + 1] = 'HA'
-
-    //   document.getElementById(`${x}${y}`).style.background = 'pink'
-    //   document.getElementById(`${x + 1}${y - 1}`).style.background = 'pink'
-    //   document.getElementById(`${x + 1}${y + 1}`).style.background = 'pink'
-
-    //   if (HA == HA_TOTAL) {
-    //     document.getElementById('peca').innerHTML = 'Submarino'
-    //   }
   } else if (SB < SB_TOTAL) {
     if (!verifyEmptySpaceBetween([{ x, y }])) {
       alert('Local invalido')
@@ -210,23 +248,43 @@ const add = (x, y) => {
       document.getElementById('peca').innerHTML = 'Cruzador'
     }
   } else if (CR < CR_TOTAL) {
-    if (
-      y > 8 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y + 1 },
-      ])
-    ) {
-      alert('Local invalido')
-      return
+    if (horizontal) {
+      if (
+        y > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y + 1 },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      CR++
+
+      my_board[x][y] = 'CR'
+      my_board[x][y + 1] = 'CR'
+
+      document.getElementById(`${x}${y}`).style.background = 'orange'
+      document.getElementById(`${x}${y + 1}`).style.background = 'orange'
+    } else {
+      if (
+        x > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x + 1, y },
+        ])
+      ) {
+        alert('Local invalido')
+        return
+      }
+      CR++
+
+      my_board[x][y] = 'CR'
+      my_board[x + 1][y] = 'CR'
+
+      document.getElementById(`${x}${y}`).style.background = 'orange'
+      document.getElementById(`${x + 1}${y}`).style.background = 'orange'
     }
-    CR++
-
-    my_board[x][y] = 'CR'
-    my_board[x][y + 1] = 'CR'
-
-    document.getElementById(`${x}${y}`).style.background = 'orange'
-    document.getElementById(`${x}${y + 1}`).style.background = 'orange'
 
     if (CR == CR_TOTAL) {
       ready()
@@ -325,43 +383,85 @@ ws.onmessage = (event) => {
 
 const preview = (x, y) => {
   if (PA < PA_TOTAL) {
-    if (
-      y > 7 ||
-      y < 2 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 2 },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 2 },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y - 2}`).style.background = '#538daa'
-    document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
-    document.getElementById(`${x}${y}`).style.background = '#538daa'
-    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
-    document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+      document.getElementById(`${x}${y - 2}`).style.background = '#538daa'
+      document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+      document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+    } else {
+      if (
+        x > 7 ||
+        x < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 2, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x - 2}${y}`).style.background = '#538daa'
+      document.getElementById(`${x - 1}${y}`).style.background = '#538daa'
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x + 1}${y}`).style.background = '#538daa'
+      document.getElementById(`${x + 2}${y}`).style.background = '#538daa'
+    }
   } else if (EC < EC_TOTAL) {
-    if (
-      y > 7 ||
-      y < 1 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
-    document.getElementById(`${x}${y}`).style.background = '#538daa'
-    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
-    document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+      document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+      document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+    } else {
+      if (
+        x > 7 ||
+        x < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x - 1}${y}`).style.background = '#538daa'
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x + 1}${y}`).style.background = '#538daa'
+      document.getElementById(`${x + 2}${y}`).style.background = '#538daa'
+    }
   } else if (SB < SB_TOTAL) {
     if (!verifyEmptySpaceBetween([{ x, y }])) {
       return
@@ -369,67 +469,133 @@ const preview = (x, y) => {
 
     document.getElementById(`${x}${y}`).style.background = '#538daa'
   } else if (CR < CR_TOTAL) {
-    if (
-      y > 8 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y + 1 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y + 1 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y}`).style.background = '#538daa'
-    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+    } else {
+      if (
+        x > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x + 1, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x}${y}`).style.background = '#538daa'
+      document.getElementById(`${x + 1}${y}`).style.background = '#538daa'
+    }
   }
+  lastX = x
+  lastY = y
 }
 
 const removePreview = (x, y) => {
   if (PA < PA_TOTAL) {
-    if (
-      y > 7 ||
-      y < 2 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 2 },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 2 },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y - 2}`).style.backgroundColor =
-      'transparent'
-    document.getElementById(`${x}${y - 1}`).style.backgroundColor =
-      'transparent'
-    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-      'transparent'
-    document.getElementById(`${x}${y + 2}`).style.backgroundColor =
-      'transparent'
+      document.getElementById(`${x}${y - 2}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y - 1}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y + 2}`).style.backgroundColor =
+        'transparent'
+    } else {
+      if (
+        x > 7 ||
+        x < 2 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 2, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x - 2}${y}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x - 1}${y}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x + 2}${y}`).style.backgroundColor =
+        'transparent'
+    }
   } else if (EC < EC_TOTAL) {
-    if (
-      y > 7 ||
-      y < 1 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y - 1 },
-        { x, y: y + 1 },
-        { x, y: y + 2 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 7 ||
+        y < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y - 1 },
+          { x, y: y + 1 },
+          { x, y: y + 2 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y - 1}`).style.backgroundColor =
-      'transparent'
-    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-      'transparent'
-    document.getElementById(`${x}${y + 2}`).style.backgroundColor =
-      'transparent'
+      document.getElementById(`${x}${y - 1}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y + 2}`).style.backgroundColor =
+        'transparent'
+    } else {
+      if (
+        x > 7 ||
+        x < 1 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x - 1, y },
+          { x: x + 1, y },
+          { x: x + 2, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x - 1}${y}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
+        'transparent'
+      document.getElementById(`${x + 2}${y}`).style.backgroundColor =
+        'transparent'
+    }
   } else if (SB < SB_TOTAL) {
     if (!verifyEmptySpaceBetween([{ x, y }])) {
       return
@@ -437,21 +603,47 @@ const removePreview = (x, y) => {
 
     document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
   } else if (CR < CR_TOTAL) {
-    if (
-      y > 8 ||
-      !verifyEmptySpaceBetween([
-        { x, y },
-        { x, y: y + 1 },
-      ])
-    ) {
-      return
-    }
+    if (horizontal) {
+      if (
+        y > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x, y: y + 1 },
+        ])
+      ) {
+        return
+      }
 
-    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-      'transparent'
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+        'transparent'
+    } else {
+      if (
+        x > 8 ||
+        !verifyEmptySpaceBetween([
+          { x, y },
+          { x: x + 1, y },
+        ])
+      ) {
+        return
+      }
+
+      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
+        'transparent'
+    }
   }
 }
 
-window.oncontextmenu = () => (horizontal = !horizontal)
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Space') {
+    if (lastX && lastY) {
+      removePreview(lastX, lastY)
+    }
+    horizontal = !horizontal
+    if (lastX && lastY) {
+      preview(lastX, lastY)
+    }
+  }
+})
 

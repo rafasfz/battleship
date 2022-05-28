@@ -19,7 +19,9 @@ const emptySpace = ({ x, y, board, verfiedsCoordenates }) => {
   if (board[x][y] === 'S') {
     return (
       emptySpace({ x, y: y + 1, board, verfiedsCoordenates }) &&
-      emptySpace({ x, y: y - 1, board, verfiedsCoordenates })
+      emptySpace({ x, y: y - 1, board, verfiedsCoordenates }) &&
+      emptySpace({ x: x + 1, y, board, verfiedsCoordenates }) &&
+      emptySpace({ x: x - 1, y, board, verfiedsCoordenates })
     )
   }
   return (
