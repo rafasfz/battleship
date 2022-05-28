@@ -118,6 +118,17 @@ const verifyEmptySpaceBetween = (ships) => {
   return emptySpaceBetween
 }
 
+const verifyEmptySpace = (ships) => {
+  let emptySpace = true
+  ships.forEach(({ x, y }) => {
+    if (!emptySpace({ x, y })) {
+      emptySpace = false
+      return
+    }
+  })
+  return emptySpace
+}
+
 const add = (x, y) => {
   if (PA < PA_TOTAL) {
     if (horizontal) {
@@ -382,6 +393,8 @@ ws.onmessage = (event) => {
 }
 
 const preview = (x, y) => {
+  lastX = x
+  lastY = y
   if (PA < PA_TOTAL) {
     if (horizontal) {
       if (
@@ -497,151 +510,24 @@ const preview = (x, y) => {
       document.getElementById(`${x + 1}${y}`).style.background = '#538daa'
     }
   }
-  lastX = x
-  lastY = y
 }
 
 const removePreview = (x, y) => {
-  if (PA < PA_TOTAL) {
-    if (horizontal) {
-      if (
-        y > 7 ||
-        y < 2 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x, y: y - 2 },
-          { x, y: y - 1 },
-          { x, y: y + 1 },
-          { x, y: y + 2 },
-        ])
-      ) {
-        return
+  console.log('david')
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (my_board[i][j] === '') {
+        document.getElementById(`${i}${j}`).style.background = 'transparent'
       }
-
-      document.getElementById(`${x}${y - 2}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y - 1}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y + 2}`).style.backgroundColor =
-        'transparent'
-    } else {
-      if (
-        x > 7 ||
-        x < 2 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x: x - 2, y },
-          { x: x - 1, y },
-          { x: x + 1, y },
-          { x: x + 2, y },
-        ])
-      ) {
-        return
-      }
-
-      document.getElementById(`${x - 2}${y}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x - 1}${y}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x + 2}${y}`).style.backgroundColor =
-        'transparent'
-    }
-  } else if (EC < EC_TOTAL) {
-    if (horizontal) {
-      if (
-        y > 7 ||
-        y < 1 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x, y: y - 1 },
-          { x, y: y + 1 },
-          { x, y: y + 2 },
-        ])
-      ) {
-        return
-      }
-
-      document.getElementById(`${x}${y - 1}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y + 2}`).style.backgroundColor =
-        'transparent'
-    } else {
-      if (
-        x > 7 ||
-        x < 1 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x: x - 1, y },
-          { x: x + 1, y },
-          { x: x + 2, y },
-        ])
-      ) {
-        return
-      }
-
-      document.getElementById(`${x - 1}${y}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
-        'transparent'
-      document.getElementById(`${x + 2}${y}`).style.backgroundColor =
-        'transparent'
-    }
-  } else if (SB < SB_TOTAL) {
-    if (!verifyEmptySpaceBetween([{ x, y }])) {
-      return
-    }
-
-    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-  } else if (CR < CR_TOTAL) {
-    if (horizontal) {
-      if (
-        y > 8 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x, y: y + 1 },
-        ])
-      ) {
-        return
-      }
-
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x}${y + 1}`).style.backgroundColor =
-        'transparent'
-    } else {
-      if (
-        x > 8 ||
-        !verifyEmptySpaceBetween([
-          { x, y },
-          { x: x + 1, y },
-        ])
-      ) {
-        return
-      }
-
-      document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
-      document.getElementById(`${x + 1}${y}`).style.backgroundColor =
-        'transparent'
     }
   }
 }
 
 document.addEventListener('keydown', (event) => {
   if (event.code === 'Space') {
-    if (lastX && lastY) {
-      removePreview(lastX, lastY)
-    }
     horizontal = !horizontal
-    if (lastX && lastY) {
+    if (!isNaN(lastX) && !isNaN(lastY)) {
+      removePreview(lastX, lastY)
       preview(lastX, lastY)
     }
   }
