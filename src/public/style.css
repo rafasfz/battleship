@@ -39,7 +39,7 @@ td {
 	border-radius: 15px;
 }
 
-td:hover {
+#opponent-board td:hover {
 	background: #538daa;
 }
 

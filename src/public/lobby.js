@@ -41,6 +41,7 @@ let EC = 0
 let HA = 0
 let SB = 0
 let CR = 0
+let horizontal = true
 
 const joinLobby = () => {
   nick = document.getElementById('nick').value
@@ -321,4 +322,136 @@ ws.onmessage = (event) => {
     }
   }
 }
+
+const preview = (x, y) => {
+  if (PA < PA_TOTAL) {
+    if (
+      y > 7 ||
+      y < 2 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 2 },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y - 2}`).style.background = '#538daa'
+    document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
+    document.getElementById(`${x}${y}`).style.background = '#538daa'
+    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+    document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+  } else if (EC < EC_TOTAL) {
+    if (
+      y > 7 ||
+      y < 1 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y - 1}`).style.background = '#538daa'
+    document.getElementById(`${x}${y}`).style.background = '#538daa'
+    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+    document.getElementById(`${x}${y + 2}`).style.background = '#538daa'
+  } else if (SB < SB_TOTAL) {
+    if (!verifyEmptySpaceBetween([{ x, y }])) {
+      return
+    }
+
+    document.getElementById(`${x}${y}`).style.background = '#538daa'
+  } else if (CR < CR_TOTAL) {
+    if (
+      y > 8 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y + 1 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y}`).style.background = '#538daa'
+    document.getElementById(`${x}${y + 1}`).style.background = '#538daa'
+  }
+}
+
+const removePreview = (x, y) => {
+  if (PA < PA_TOTAL) {
+    if (
+      y > 7 ||
+      y < 2 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 2 },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y - 2}`).style.backgroundColor =
+      'transparent'
+    document.getElementById(`${x}${y - 1}`).style.backgroundColor =
+      'transparent'
+    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+      'transparent'
+    document.getElementById(`${x}${y + 2}`).style.backgroundColor =
+      'transparent'
+  } else if (EC < EC_TOTAL) {
+    if (
+      y > 7 ||
+      y < 1 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y - 1 },
+        { x, y: y + 1 },
+        { x, y: y + 2 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y - 1}`).style.backgroundColor =
+      'transparent'
+    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+      'transparent'
+    document.getElementById(`${x}${y + 2}`).style.backgroundColor =
+      'transparent'
+  } else if (SB < SB_TOTAL) {
+    if (!verifyEmptySpaceBetween([{ x, y }])) {
+      return
+    }
+
+    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+  } else if (CR < CR_TOTAL) {
+    if (
+      y > 8 ||
+      !verifyEmptySpaceBetween([
+        { x, y },
+        { x, y: y + 1 },
+      ])
+    ) {
+      return
+    }
+
+    document.getElementById(`${x}${y}`).style.backgroundColor = 'transparent'
+    document.getElementById(`${x}${y + 1}`).style.backgroundColor =
+      'transparent'
+  }
+}
+
+window.oncontextmenu = () => (horizontal = !horizontal)
 
