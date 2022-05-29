@@ -293,6 +293,17 @@ const add = (x, y) => {
   }
 }
 
+ws.onclose = () => {
+  document.getElementById('messageArea').innerHTML =
+    'O servidor caiu, sentimos muito :('
+  document.getElementById('messageArea2').innerHTML = ''
+  document.getElementById('macth-phase-1').style.display = 'block'
+  document.getElementById('menu').style.display = 'none'
+  document.getElementById('opponent-board').style.display = 'none'
+  document.getElementById('my-board').style.display = 'none'
+  console.log('hello')
+}
+
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data)
   if (data.type == 'match') {
