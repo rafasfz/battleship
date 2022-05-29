@@ -301,7 +301,6 @@ ws.onclose = () => {
   document.getElementById('menu').style.display = 'none'
   document.getElementById('opponent-board').style.display = 'none'
   document.getElementById('my-board').style.display = 'none'
-  console.log('hello')
 }
 
 ws.onmessage = (event) => {
