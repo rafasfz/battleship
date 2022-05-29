@@ -18,4 +18,4 @@
   yarn dev
 ```
 
-You can test the application in product <a target="_blank" href="https://battleship-rafasfz.herokuapp.com/">here</a>
+You can test the application in production <a href="https://battleship-rafasfz.herokuapp.com/">here</a>
