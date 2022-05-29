@@ -17,3 +17,5 @@
   # run in develop
   yarn dev
 ```
+
+You can test the application in product <a href="https://battleship-rafasfz.herokuapp.com/">here</a>
