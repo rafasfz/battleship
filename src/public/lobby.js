@@ -345,6 +345,7 @@ ws.onmessage = (event) => {
           document.getElementById(
             `${data.data.x}${data.data.y}`
           ).style.background = 'blue'
+          my_board[data.data.x][data.data.y] = 'W'
         } else {
           document.getElementById(
             `opponent-${data.data.x}${data.data.y}`
