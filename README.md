@@ -2,6 +2,10 @@
 
 ## With npm
 ```bash 
+  git clone git@github.com:rafasfz/battleship.git
+
+  cd battleship
+
   # install dependeces
   npm install
 
@@ -10,7 +14,11 @@
 ```
 
 ## With yarn
-```bash 
+```bash
+  git clone git@github.com:rafasfz/battleship.git
+
+  cd battleship
+
   # install dependeces
   yarn install
 
