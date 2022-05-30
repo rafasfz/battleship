@@ -522,7 +522,8 @@ const removePreview = (x, y) => {
 }
 
 document.addEventListener('keydown', (event) => {
-  if (event.code === 'Space') {
+  if (event.code === 'Space' && event.target === document.body) {
+    event.preventDefault()
     horizontal = !horizontal
     if (!isNaN(lastX) && !isNaN(lastY)) {
       removePreview(lastX, lastY)
