@@ -20,7 +20,7 @@
   cd battleship
 
   # install dependeces
-  yarn install
+  yarn
 
   # run in develop
   yarn dev
