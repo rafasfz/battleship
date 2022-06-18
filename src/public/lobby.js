@@ -388,6 +388,10 @@ ws.onmessage = (event) => {
       document.getElementById('opponent-board').style.display = 'none'
       document.getElementById('my-board').style.display = 'none'
     }
+  } else if (data.type == 'ping') {
+    const time = new Date().getTime()
+    const pingElement = document.getElementById('ping')
+    pingElement.innerHTML = time - data.time
   }
 }
 
@@ -531,4 +535,17 @@ document.addEventListener('keydown', (event) => {
     }
   }
 })
+
+const getPing = () => {
+  ws.send(
+    JSON.stringify({
+      type: 'ping',
+      data: {
+        time: new Date().getTime(),
+      },
+    })
+  )
+}
+
+setTimeout(setInterval(getPing, 1000), 1000)
 

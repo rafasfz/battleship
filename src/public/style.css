@@ -10,6 +10,12 @@ body {
 	background: #6FC3ED;
 }
 
+.ping-container {
+  position: fixed;
+  right: 0;
+  font-size: 32px;
+}
+
 #board {
 	position: relative;
 	width: 100%;

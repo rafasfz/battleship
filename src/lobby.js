@@ -54,7 +54,14 @@ const checkWin = (board) => {
 
 const onMessage = (ws, data) => {
   const dataJSON = JSON.parse(data)
-  if (dataJSON.type == 'attack') {
+  if (dataJSON.type == 'ping') {
+    ws.send(
+      JSON.stringify({
+        type: 'ping',
+        time: dataJSON.data.time,
+      })
+    )
+  } else if (dataJSON.type == 'attack') {
     const match = matches.find((match) => match.id == dataJSON.data.match_id)
     const player =
       match.player1.id == dataJSON.data.id ? match.player1 : match.player2
